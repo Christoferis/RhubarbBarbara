@@ -1,23 +1,60 @@
-#RhubarbBarbara is a Python tool for using Rhubarb
+#RhubarbBarbara is a Python tool for using Rhubarb Lip Sync in Production, without the need of Software like AE, OpenToonz etc.
+#by creating videos out of the data provided
+#by Christoferis CC BY 4.0 (https://www.sites.google.com/view/christoferis)
+#trying to use a minimal amount of non stock dependencies
 
+import json
 import tkinter as tk
 import tkinter.filedialog as fd
-from tkinter.constants import BOTH, BOTTOM, END, LEFT, RIGHT, TOP, X, Y
+from tkinter import messagebox
+from subprocess import Popen, PIPE
+from tkinter.constants import BOTH, BOTTOM, END, LEFT, NO, RIGHT, TOP, X, Y
 
 import moviepy as mov
 from PIL import Image, ImageTk
 
-mouthshapes = dict()
+#Todo: 
+# - Rhubarb Integration
+# - Better UI
+# - Configfile
+# - freeze
+# - Moviepy image to video backend
+# - Loading bar 
+# - Add tempfile
+
+#vars
+output = str()
+audiopath = str("D:/Users/sdw.wav")
+savepath = str() 
+
 
 #ⒶⒷⒸⒹⒺⒻ extended shapes(ⒼⒽⓍ)
 
-#GUI
+#Rhubarb integration
 
+
+def rhubarb():
+    global audiopath
+
+    rhu = json.loads(open("config.json", mode="r").read())["rhubarb"]
+
+    #open a cmd instance of Rhubarb
+    cmd = Popen([rhu, "-f", "json", audiopath], stdout=PIPE)
+    
+    result = cmd.communicate()
+
+    return json.loads(result[0])["mouthCues"]
+
+
+#GUI
+#class for mouthselector thingy
 class mouthSelector:
+    mouthshapes = dict()
 
     def __init__(self, window, mouthshape):
         self.window = window
         self.logo = mouthshape + "\n "
+        self.button = None
         
 
         #mouthshape selector:
@@ -66,15 +103,84 @@ class mouthSelector:
         imgframe.pack(side=LEFT)
 
         #button to open filedialog
-        tk.Button(shape, text="add a image", command=self.add_to_dict).pack(side=RIGHT, fill=BOTH)
+        self.button = tk.Button(shape, text="add a image", command=self.add_to_dict)
+        self.button.pack(side=RIGHT, fill=BOTH)
         
         return shape
 
     def add_to_dict(self):
-        global mouthshapes
-        shape = fd.askopenfile()
+        #add in only png images / jpg 
+        shape = fd.askopenfilename()
         
-        #mouthshapes[self.logo] = shape
+        
+        if shape != "":
+            #open and append to dict
+            mouthSelector.mouthshapes[self.logo] = shape
+
+            #set button color
+            self.button.config(background="blue", foreground="white")
+        else:
+            print("nothing")
+
+#startmethod + checker
+def start():
+    #flag int for keeping missing things at minimum
+    global audiopath
+    global output
+
+    flag = int(0)
+
+    #check images (for the important ones)
+
+    for shape in ("A","B","C","D","E","F"):
+        if shape not in mouthSelector.mouthshapes:
+            flag += 1
+            break
+
+    #check audiopath +
+
+    #endcheck  
+    if flag > 0:
+        #show error screen
+        messagebox.showinfo(title="You forgot something!",
+        message=
+        '''
+        You can't start yet!
+        Parts are incomplete, please correct them and try again
+        if this Problem persists please open an issue on GitHub"
+        ''')
+    else:
+        #start rhubarb class, then 
+        pass
+        
+
+
+#Filegrabber for arbitrary files
+def get_path(widget, type):
+    global audiopath
+    global output
+
+    #reset display widget and add in path info
+    #audio for audio path, output for output path
+    if type == "audio":
+        path = fd.askopenfilename()
+
+        if path != '':
+            widget.delete(0, END)
+            widget.insert(0, path)
+            audiopath = path
+        else:
+            pass
+
+    elif type == "output":
+        path = fd.asksaveasfilename()
+
+        if path != '':
+            widget.delete(0, END)
+            widget.insert(0, path)
+            output = path
+        else:
+            pass
 
 
 def gui(window):
@@ -85,7 +191,7 @@ def gui(window):
         frame = mouthSelector(window=top, mouthshape=shape)
         frame.create_wid().pack(side=BOTTOM)
 
-    top.pack(expand=2, pady=50, fill=BOTH)
+    top.pack(expand=2, pady=10, fill=BOTH)
 
     #Frame for the start Button and Audio Input
     bottom = tk.Frame(window)
@@ -94,22 +200,33 @@ def gui(window):
     audiopath.pack(side=LEFT, expand=1, fill=X)
     audiopath.insert(END, "Path to audio")
 
-    #start button
-    tk.Button(bottom, text="start").pack(side=RIGHT)
-    #search file button
-    tk.Button(bottom, text="Open Audio File").pack(side=RIGHT)
+    #outputpath
+    output = tk.Entry(bottom)
+    output.pack(side=LEFT, expand=1, fill=X)
+    output.insert(END, "Outputpath")
 
-    bottom.pack(side=BOTTOM, fill=BOTH, expand=2)
+    #start button
+    tk.Button(bottom, text="start", background="green", foreground="white", command=start).pack(side=RIGHT, fill=BOTH)
+    
+    #search file button
+    tk.Button(bottom, text="Open Audio File", command=lambda: get_path(audiopath, type="audio")).pack(side=RIGHT, fill=BOTH)
+
+    bottom.pack(side=BOTTOM, fill=BOTH, expand=2, pady= 50, padx=50)
+
 
 
 def main():
-    #construct main window
-    window = tk.Tk()
 
+
+    #construct main window and call GUI
+    '''
+    window = tk.Tk()
+    
     gui(window=window)
 
 
     window.mainloop()
+    '''
     pass
 
 main()
