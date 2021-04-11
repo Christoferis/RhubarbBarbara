@@ -18,7 +18,10 @@ from PIL import Image, ImageTk
 # - freeze
 # - Loading bar 
 # - make threads parameter variable by computer
-# - add option for extendedshapes
+# - add option for extendedshapes / auto extendedshapes
+# - more Video options?
+# - About Page, Title, icon + info
+# - more Buttons for fetching paths + Path Information display at image thing + remove images
 
 #vars
 output = str()
@@ -29,24 +32,11 @@ savepath = str()
 #ⒶⒷⒸⒹⒺⒻ extended shapes(ⒼⒽⓍ)
 
 
-#moviepy image clip class
-class videoImage:
 
-    def __init__(self, data):
-        self.images = mouthSelector.mouthshapes
-        self.duration = float(data["end"]) - float(data["start"])
-        self.type = data["value"]
-        self.video = None
-        self.make_clip()
+def videoImage(data):
+    #function version of prior videoImage Class (Problems with class instances)    
+    return ImageClip(img=mouthSelector.mouthshapes[data["value"]], transparent=True, duration=float(data["end"]) - float(data["start"]))
 
-        pass
-
-    def make_clip(self):
-        self.video = ImageClip(img=self.images[self.type], transparent=True, duration=self.duration)
-        pass
-
-    def output(self):
-        return self.video
     
 
 #Rhubarb integration
@@ -146,15 +136,13 @@ def process():
     imageclips = list()
 
     for data in mouthData:
-        obj = videoImage(data)
-        imageclips.append(obj.output)
+        imageclips.append(videoImage(data))
     
-    print(imageclips)
     #concatenate all 
     final = concatenate_videoclips(imageclips)
 
     #Render out
-    final.write_videofile(output, fps=60, codec="png", threads=4)
+    final.write_videofile("test.mp4", fps=60)
 
 
 #startmethod + checker
