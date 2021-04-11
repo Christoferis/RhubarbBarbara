@@ -8,43 +8,59 @@ import tkinter as tk
 import tkinter.filedialog as fd
 from tkinter import messagebox
 from subprocess import Popen, PIPE
-from tkinter.constants import BOTH, BOTTOM, END, LEFT, NO, RIGHT, TOP, X, Y
+from tkinter.constants import BOTH, BOTTOM, END, LEFT, NO, RIGHT, S, TOP, X, Y
 
-import moviepy as mov
+from moviepy.editor import ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
 
 #Todo: 
-# - Rhubarb Integration
 # - Better UI
-# - Configfile
 # - freeze
-# - Moviepy image to video backend
 # - Loading bar 
-# - Add tempfile
+# - make threads parameter variable by computer
+# - add option for extendedshapes
 
 #vars
 output = str()
-audiopath = str("D:/Users/sdw.wav")
+audiopath = str()
 savepath = str() 
 
 
 #ⒶⒷⒸⒹⒺⒻ extended shapes(ⒼⒽⓍ)
 
+
+#moviepy image clip class
+class videoImage:
+
+    def __init__(self, data):
+        self.images = mouthSelector.mouthshapes
+        self.duration = float(data["end"]) - float(data["start"])
+        self.type = data["value"]
+        self.video = None
+        self.make_clip()
+
+        pass
+
+    def make_clip(self):
+        self.video = ImageClip(img=self.images[self.type], transparent=True, duration=self.duration)
+        pass
+
+    def output(self):
+        return self.video
+    
+
 #Rhubarb integration
-
-
 def rhubarb():
     global audiopath
 
     rhu = json.loads(open("config.json", mode="r").read())["rhubarb"]
 
     #open a cmd instance of Rhubarb
-    cmd = Popen([rhu, "-f", "json", audiopath], stdout=PIPE)
+    cmd = Popen([rhu, "-f", "json", "--extendedShapes", "", audiopath], stdout=PIPE)
     
     result = cmd.communicate()
 
     return json.loads(result[0])["mouthCues"]
-
 
 #GUI
 #class for mouthselector thingy
@@ -53,7 +69,7 @@ class mouthSelector:
 
     def __init__(self, window, mouthshape):
         self.window = window
-        self.logo = mouthshape + "\n "
+        self.logo = mouthshape
         self.button = None
         
 
@@ -120,7 +136,26 @@ class mouthSelector:
             #set button color
             self.button.config(background="blue", foreground="white")
         else:
-            print("nothing")
+            print(shape)
+
+def process():
+    global output
+
+    mouthData = rhubarb()
+
+    imageclips = list()
+
+    for data in mouthData:
+        obj = videoImage(data)
+        imageclips.append(obj.output)
+    
+    print(imageclips)
+    #concatenate all 
+    final = concatenate_videoclips(imageclips)
+
+    #Render out
+    final.write_videofile(output, fps=60, codec="png", threads=4)
+
 
 #startmethod + checker
 def start():
@@ -131,6 +166,7 @@ def start():
     flag = int(0)
 
     #check images (for the important ones)
+    print(flag)
 
     for shape in ("A","B","C","D","E","F"):
         if shape not in mouthSelector.mouthshapes:
@@ -148,9 +184,9 @@ def start():
         You can't start yet!
         Parts are incomplete, please correct them and try again
         if this Problem persists please open an issue on GitHub"
-        ''')
+        ''' + " " + str(flag))
     else:
-        #start rhubarb class, then 
+        process()
         pass
         
 
@@ -219,14 +255,14 @@ def main():
 
 
     #construct main window and call GUI
-    '''
+    
     window = tk.Tk()
     
     gui(window=window)
 
 
     window.mainloop()
-    '''
+    
     pass
 
 main()
