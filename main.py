@@ -26,18 +26,13 @@ from PIL import Image, ImageTk
 #vars
 output = str()
 audiopath = str()
-savepath = str() 
-
-
-#ⒶⒷⒸⒹⒺⒻ extended shapes(ⒼⒽⓍ)
-
+savepath = str()
 
 
 def videoImage(data):
     #function version of prior videoImage Class (Problems with class instances)    
     return ImageClip(img=mouthSelector.mouthshapes[data["value"]], transparent=True, duration=float(data["end"]) - float(data["start"]))
 
-    
 
 #Rhubarb integration
 def rhubarb():
@@ -52,7 +47,6 @@ def rhubarb():
 
     return json.loads(result[0])["mouthCues"]
 
-#GUI
 #class for mouthselector thingy
 class mouthSelector:
     mouthshapes = dict()
@@ -139,11 +133,10 @@ def process():
         imageclips.append(videoImage(data))
     
     #concatenate all 
-    final = concatenate_videoclips(imageclips)
+    final = concatenate_videoclips(imageclips, method="compose")
 
     #Render out
     final.write_videofile("test.mp4", fps=60)
-
 
 #startmethod + checker
 def start():
@@ -178,7 +171,6 @@ def start():
         pass
         
 
-
 #Filegrabber for arbitrary files
 def get_path(widget, type):
     global audiopath
@@ -206,7 +198,7 @@ def get_path(widget, type):
         else:
             pass
 
-
+#GUI
 def gui(window):
     #make main Frame for the images
     top = tk.Frame(window)
@@ -237,14 +229,12 @@ def gui(window):
 
     bottom.pack(side=BOTTOM, fill=BOTH, expand=2, pady= 50, padx=50)
 
-
-
+#Main Function 
 def main():
-
-
     #construct main window and call GUI
     
     window = tk.Tk()
+    window.title("RhubarbBarbara by Christoferis (v0.6)")
     
     gui(window=window)
 
