@@ -293,7 +293,7 @@ def main():
     #construct main window and call GUI
     
     window = tk.Tk()
-    window.title("RhubarbBarbara by Christoferis (v0.7)")
+    window.title("RhubarbBarbara by Christoferis (v0.9)")
     
     gui(window=window, stdpath=standard)
 
