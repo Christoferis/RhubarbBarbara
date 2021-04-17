@@ -15,10 +15,13 @@ from moviepy.editor import ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
 
 #Todo: 
+#V.1:
 # - Loading bar 
-# - make threads parameter variable by computer
-# - more Video options? (add MP4, PNG Sequence)
 # - About Page, icon + info
+# - FPS Option
+# - more Video options? (add MP4, PNG Sequence -> Extra checkbox)
+
+# optional
 # - Path Information display at image thing
 # - Better UI
 # - freeze
@@ -46,16 +49,18 @@ def rhubarb():
     extshapes = ""
     for shape in mouthSelector.mouthshapes:
         #g
-        if shape.find("G"):
+        if shape == "G":
             extshapes += "G"
         #h
-        elif shape.find("H"):
+        elif shape == "H":
             extshapes += "H"
         #x
-        elif shape.find("X"):
+        elif shape == "X":
             extshapes += "X"
         else:
             pass
+    
+    print(extshapes)
 
     #open a cmd instance of Rhubarb
     cmd = Popen([rhu, "-f", "json", "--extendedShapes", extshapes, audiopath], stdout=PIPE)
@@ -160,8 +165,18 @@ class mouthSelector:
 def process():
     global output
 
+    #find the codec
     mouthData = rhubarb()
 
+
+
+    if output.find(".mp4") >= 0:
+        codec = "libx264"
+        print("yoi")
+    elif output.find(".avi") >= 0:
+        codec = "png"
+        print("yoi")
+    
     imageclips = list()
 
     for data in mouthData:
@@ -171,8 +186,7 @@ def process():
     final = concatenate_videoclips(imageclips, method="compose")
 
     #Render out
-    print(output)
-    final.write_videofile(output, codec="png", fps=60)
+    final.write_videofile(output, codec=codec, fps=60)
 
 #startmethod + checker
 def start():
@@ -293,7 +307,7 @@ def main():
     #construct main window and call GUI
     
     window = tk.Tk()
-    window.title("RhubarbBarbara by Christoferis (v0.9)")
+    window.title("RhubarbBarbara by Christoferis (v0.10)")
     
     gui(window=window, stdpath=standard)
 
