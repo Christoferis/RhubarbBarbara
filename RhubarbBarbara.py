@@ -3,16 +3,19 @@
 #by Christoferis CC BY 4.0 (https://www.sites.google.com/view/christoferis)
 #trying to use a minimal amount of non stock dependencies
 
+from io import StringIO
 import json
 import tkinter as tk
 import tkinter.filedialog as fd
+from tkinter.ttk import Progressbar
 from random import random
 from subprocess import PIPE, Popen
-from tkinter import messagebox
+from tkinter import Label, messagebox
 from os import mkdir
 
 from moviepy.editor import ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
+from numpy import result_type
 
 #Todo: 
 #V.1:
@@ -31,6 +34,7 @@ output = str()
 audiopath = str()
 savepath = str()
 config = None
+window = None
 
 
 def videoImage(data):
@@ -150,7 +154,7 @@ class mouthSelector:
 
     def add_to_dict(self):
         #add in only png images / jpg 
-        shape = fd.askopenfilename()
+        shape = fd.askopenfilename(defaultextension=".png")
         
         
         if shape != "":
@@ -162,11 +166,47 @@ class mouthSelector:
         else:
             print(shape)
 
+class loadbar:
+    def __init__(self):
+        #create toplevel window
+        global window
+        self.load = tk.Toplevel(window)
+
+        #create widgets
+        self.progress = Progressbar(self.load, orient="horizontal", length=200, mode="determinate")
+        self.progress.pack(side="top")
+
+
+        #Status text
+        self.state = tk.StringVar()
+        self.state.set("Extract Mouth data from Audio")
+
+        Label(self.load, textvariable=self.state).pack(side="bottom")
+
+        pass
+
+    def back(self):
+        return self.state
+
+    def change_val(self, val):
+        self.progress.config(value=val)
+
+    def destroy(self):
+        self.load.destroy()
+
+
 def process():
     global output
 
+    #open Loadingscreen and get Stringvar
+    ldscr = loadbar()
+    lddesc = ldscr.back()
+
+
     #find the codec
     mouthData = rhubarb()
+    ldscr.change_val(val=25)
+    lddesc.set("Setting the Codec")
 
 
     if output.find(".mp4") >= 0:
@@ -189,6 +229,8 @@ def process():
 
         video = False
 
+    lddesc.set("Compile Mouth Data and Source Images to Video")
+    ldscr.change_val(50)
 
     imageclips = list()
 
@@ -198,11 +240,19 @@ def process():
     #concatenate all 
     final = concatenate_videoclips(imageclips, method="compose")
 
+    lddesc.set("Rendering Video")
+    ldscr.change_val(75.0)
+
     #Render out, if video True = Render video, else render imagesequence
     if video == True:
         final.write_videofile(output, codec=codec, fps=60)
     elif video == False:
         final.write_images_sequence(fps=60, withmask=True, nameformat=output)
+    
+    lddesc.set("Done!")
+    ldscr.change_val(100)
+
+    
 
 #startmethod + checker
 def start():
@@ -313,6 +363,7 @@ def main():
     #open config file and fetch and make random name
     global config
     global output
+    global window
     config = json.loads(open("config.json", mode="r").read())
     
     #standard config
