@@ -9,7 +9,7 @@ import tkinter.filedialog as fd
 from random import random
 from subprocess import PIPE, Popen
 from tkinter import messagebox
-from tkinter.constants import BOTH, BOTTOM, DISABLED, END, LEFT, RIGHT, X
+from os import mkdir
 
 from moviepy.editor import ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
@@ -19,7 +19,7 @@ from PIL import Image, ImageTk
 # - Loading bar 
 # - About Page, icon + info
 # - FPS Option
-# - more Video options? (add MP4, PNG Sequence -> Extra checkbox)
+# - Pack into Egg
 
 # optional
 # - Path Information display at image thing
@@ -116,22 +116,22 @@ class mouthSelector:
         else:
             prevstr = self.logo
 
-        tk.Label(shape, text=prevstr).pack(side=LEFT)
+        tk.Label(shape, text=prevstr).pack(side="left")
 
         #Mouthshape preview (https://github.com/DanielSWolf/rhubarb-lip-sync#readme)
         img = ImageTk.PhotoImage(Image.open(self.image).resize((75, 62)))
         imgframe = tk.Label(shape, image=img)
         imgframe.image = img
-        imgframe.pack(side=LEFT)
+        imgframe.pack(side="left")
 
 
         #button to remove image
         rembutton = tk.Button(shape, text="X", command=self.remove_from_dict)
-        rembutton.pack(side=RIGHT, fill=BOTH)
+        rembutton.pack(side="right", fill="both")
 
         #button to open filedialog
         self.button = tk.Button(shape, text="Add an Image", command=self.add_to_dict)
-        self.button.pack(side=RIGHT, fill=BOTH)
+        self.button.pack(side="right", fill="both")
 
         
         return shape
@@ -169,14 +169,27 @@ def process():
     mouthData = rhubarb()
 
 
-
     if output.find(".mp4") >= 0:
         codec = "libx264"
-        print("yoi")
+        video = True
+
     elif output.find(".avi") >= 0:
         codec = "png"
-        print("yoi")
-    
+        video = True
+
+    #add in image sequence format and convert to path + img identifier using the foldername
+    elif output.find(".folder"):
+        #make directory
+        output = output.replace(".folder", "")
+        mkdir(output)
+        #make identifier + complete output path
+        ident = output.split("/")
+        #complete output
+        output = output + "\\" + ident[len(ident) - 1] + "%06d.png"
+
+        video = False
+
+
     imageclips = list()
 
     for data in mouthData:
@@ -185,8 +198,11 @@ def process():
     #concatenate all 
     final = concatenate_videoclips(imageclips, method="compose")
 
-    #Render out
-    final.write_videofile(output, codec=codec, fps=60)
+    #Render out, if video True = Render video, else render imagesequence
+    if video == True:
+        final.write_videofile(output, codec=codec, fps=60)
+    elif video == False:
+        final.write_images_sequence(fps=60, withmask=True, nameformat=output)
 
 #startmethod + checker
 def start():
@@ -242,7 +258,9 @@ def get_path(widget, type):
             pass
 
     elif type == "output":
-        path = fd.asksaveasfilename(defaultextension=".avi", filetypes=[('MP4-Video(*.mp4)', '*.mp4'), ("AVI-Video(*.avi)", "*.avi")])
+        path = fd.asksaveasfilename(defaultextension=".avi", filetypes=
+        [('MP4-Video(*.mp4)', '*.mp4'), ("AVI-Video(*.avi)", "*.avi"), ('Image Sequence(*.*)', '*.folder')]
+        )
 
         if path != '':
             widget.set(path)
@@ -257,9 +275,9 @@ def gui(window, stdpath):
 
     for shape in ("X","H","G","F","E","D","C","B","A"):
         frame = mouthSelector(window=top, mouthshape=shape)
-        frame.create_wid().pack(side=BOTTOM)
+        frame.create_wid().pack(side="bottom")
 
-    top.pack(expand=2, pady=10, fill=BOTH)
+    top.pack(expand=2, pady=10, fill="both")
 
     #Frame for the start Button and Audio Input
     bottom = tk.Frame(window)
@@ -268,27 +286,27 @@ def gui(window, stdpath):
     audiopath = tk.StringVar()
     audiopath.set("Path to Audio")
 
-    audio = tk.Entry(bottom, state=DISABLED, textvariable=audiopath)
-    audio.pack(side=LEFT, expand=1, fill=X)
+    audio = tk.Entry(bottom, state="readonly", textvariable=audiopath)
+    audio.pack(side="left", expand=1, fill="x")
 
     #outputpath
     outputpath = tk.StringVar()
     outputpath.set(stdpath)
 
-    output = tk.Entry(bottom, state=DISABLED, textvariable=outputpath)
-    output.pack(side=LEFT, expand=1, fill=X)
+    output = tk.Entry(bottom, state="readonly", textvariable=outputpath)
+    output.pack(side="left", expand=1, fill="x")
 
     #start button
-    tk.Button(bottom, text="start", background="green", foreground="white", command=start).pack(side=RIGHT, fill=BOTH)
+    tk.Button(bottom, text="start", background="green", foreground="white", command=start).pack(side="right", fill="both")
     
     #search file buttons
     #Audio File Button
-    tk.Button(bottom, text="Open Audio File", command=lambda: get_path(audiopath, type="audio")).pack(side=RIGHT, fill=BOTH)
+    tk.Button(bottom, text="Open Audio File", command=lambda: get_path(audiopath, type="audio")).pack(side="right", fill="both")
 
     #Output Button
-    tk.Button(bottom, text="Set Output", command=lambda: get_path(outputpath, type="output")).pack(side=BOTTOM, fill=BOTH)
+    tk.Button(bottom, text="Set Output", command=lambda: get_path(outputpath, type="output")).pack(side="bottom", fill="both")
 
-    bottom.pack(side=BOTTOM, fill=BOTH, expand=2, pady= 50, padx=50)
+    bottom.pack(side="bottom", fill="both", expand=2, pady= 50, padx=50)
 
 #Main Function 
 def main():
