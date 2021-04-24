@@ -166,48 +166,12 @@ class mouthSelector:
         else:
             print(shape)
 
-class loadbar:
-    def __init__(self):
-        #create toplevel window
-        global window
-        self.load = tk.Toplevel(window)
-
-        #create widgets
-        self.progress = Progressbar(self.load, orient="horizontal", length=200, mode="determinate")
-        self.progress.pack(side="top")
-
-
-        #Status text
-        self.state = tk.StringVar()
-        self.state.set("Extract Mouth data from Audio")
-
-        Label(self.load, textvariable=self.state).pack(side="bottom")
-
-        pass
-
-    def back(self):
-        return self.state
-
-    def change_val(self, val):
-        self.progress.config(value=val)
-
-    def destroy(self):
-        self.load.destroy()
-
 
 def process():
     global output
 
-    #open Loadingscreen and get Stringvar
-    ldscr = loadbar()
-    lddesc = ldscr.back()
-
-
     #find the codec
     mouthData = rhubarb()
-    ldscr.change_val(val=25)
-    lddesc.set("Setting the Codec")
-
 
     if output.find(".mp4") >= 0:
         codec = "libx264"
@@ -229,8 +193,6 @@ def process():
 
         video = False
 
-    lddesc.set("Compile Mouth Data and Source Images to Video")
-    ldscr.change_val(50)
 
     imageclips = list()
 
@@ -240,8 +202,6 @@ def process():
     #concatenate all 
     final = concatenate_videoclips(imageclips, method="compose")
 
-    lddesc.set("Rendering Video")
-    ldscr.change_val(75.0)
 
     #Render out, if video True = Render video, else render imagesequence
     if video == True:
@@ -249,10 +209,7 @@ def process():
     elif video == False:
         final.write_images_sequence(fps=60, withmask=True, nameformat=output)
     
-    lddesc.set("Done!")
-    ldscr.change_val(100)
 
-    
 
 #startmethod + checker
 def start():
