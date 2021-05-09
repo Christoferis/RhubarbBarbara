@@ -3,19 +3,15 @@
 #by Christoferis CC BY 4.0 (https://www.sites.google.com/view/christoferis)
 #trying to use a minimal amount of non stock dependencies
 
-from io import StringIO
 import json
 import tkinter as tk
 import tkinter.filedialog as fd
-from tkinter.ttk import Progressbar
 from random import random
 from subprocess import PIPE, Popen
-from tkinter import Label, messagebox
 from os import mkdir
 
-from moviepy.editor import ImageClip, concatenate_videoclips
+from moviepy.editor import ImageClip, concatenate_videoclips, AudioFileClip
 from PIL import Image, ImageTk
-from numpy import result_type
 
 #Todo: 
 #V.1:
@@ -38,7 +34,7 @@ window = None
 
 
 def videoImage(data):
-    #function version of prior videoImage Class (Problems with class instances)    
+    #function version of prior videoImage Class (Problems with class instances)
     return ImageClip(img=mouthSelector.mouthshapes[data["value"]], transparent=True, duration=float(data["end"]) - float(data["start"]))
 
 #Rhubarb integration
@@ -169,6 +165,7 @@ class mouthSelector:
 
 def process():
     global output
+    global audiopath
 
     #find the codec
     mouthData = rhubarb()
@@ -201,15 +198,16 @@ def process():
     
     #concatenate all 
     final = concatenate_videoclips(imageclips, method="compose")
+    
 
-
-    #Render out, if video True = Render video, else render imagesequence
+    #Render out, if video True = Render video and add audio, else render imagesequence
     if video == True:
+        final = final.set_audio(AudioFileClip(audiopath))
         final.write_videofile(output, codec=codec, fps=60)
+        
     elif video == False:
         final.write_images_sequence(fps=60, withmask=True, nameformat=output)
     
-
 
 #startmethod + checker
 def start():
@@ -236,7 +234,7 @@ def start():
     print(flag)
     if flag > 0:
         #show error screen
-        messagebox.showinfo(title="You forgot something!",
+        tk.messagebox.showinfo(title="You forgot something!",
         message=
         '''
         You can't start yet!
