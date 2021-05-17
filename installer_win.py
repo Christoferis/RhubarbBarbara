@@ -3,6 +3,7 @@
 
 import json
 from os import system, path as pt
+import pip
 
 
 
@@ -64,7 +65,8 @@ def finalize():
     choice = input("Do you want to proceed installing the packages? [y / n]: ")
 
     if choice in ("Y", "y"):
-        system("")
+        pip.main(args=["install", "moviepy"])
+
 
 
 
@@ -79,3 +81,7 @@ def main():
 
     print(welcome)
 
+try:
+    main()
+except Exception as e:
+    print("An Error Occured while Installing, try running it again, if problem persists make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara)\n\n" + e)

@@ -5,12 +5,13 @@
 
 import json
 import tkinter as tk
-import tkinter.filedialog as fd
+from os import mkdir
 from random import random
 from subprocess import PIPE, Popen
-from os import mkdir
+from tkinter import filedialog as fd
+from tkinter import messagebox as mb
 
-from moviepy.editor import ImageClip, concatenate_videoclips, AudioFileClip
+from moviepy.editor import AudioFileClip, ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
 
 #Todo: 
@@ -331,7 +332,7 @@ def main():
     #construct main window and call GUI
     
     window = tk.Tk()
-    window.title("RhubarbBarbara by Christoferis (v0.10)")
+    window.title("RhubarbBarbara by Christoferis (v0.15)")
     
     gui(window=window, stdpath=standard)
 
@@ -340,4 +341,8 @@ def main():
     
     pass
 
-main()
+try:
+    main()
+except Exception as e:
+    mb(message="A problem occured, check Error message for details, and if issue persists, make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara) \n\n" + e)
+    exit()
