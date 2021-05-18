@@ -344,5 +344,5 @@ def main():
 try:
     main()
 except Exception as e:
-    mb(message="A problem occured, check Error message for details, and if issue persists, make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara) \n\n" + e)
+    mb(message="A problem occured, check Error message for details, and if issue persists, make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara) \n\n" + str(e))
     exit()

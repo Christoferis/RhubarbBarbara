@@ -3,7 +3,9 @@
 
 import json
 from os import system, path as pt
+from typing_extensions import final
 import pip
+from time import sleep
 
 
 
@@ -68,20 +70,23 @@ def finalize():
         pip.main(args=["install", "moviepy"])
 
 
-
-
-
 def main():
     global welcome
     global config
 
     #open config
-    with open("config", mode="r") as cfg:
+    with open("config.json", mode="r") as cfg:
         config = json.loads(cfg.read())
 
     print(welcome)
+    get_rhubarb()
+    standard_path()
+    finalize()
+
+    print("Thanks for installing RhubarbBarbara! Usage Tutorial can be found here: https://sites.google.com/view/christoferis/code-projects/rhubarbbarbara")
 
 try:
     main()
 except Exception as e:
-    print("An Error Occured while Installing, try running it again, if problem persists make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara)\n\n" + e)
+    print("An Error Occured while Installing, try running it again, if problem persists make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara)\n\n" + str(e) + "\n\n This window closes in 10 Seconds automatically")
+    sleep(10)
