@@ -3,7 +3,6 @@
 
 import json
 from os import system, path as pt
-from typing_extensions import final
 import pip
 from time import sleep
 
