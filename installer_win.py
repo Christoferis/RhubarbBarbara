@@ -22,19 +22,13 @@ def get_rhubarb():
 
 
     #check for .exe
-    if path.find(".exe") <= 0:
-        path + "rhubarb.exe"
+    if path.find(".exe") <= -1:
+        path += "rhubarb.exe"
     
+
+
     #test if file exists
-    try:
-        open(path, mode="r")
-    except FileNotFoundError:
-        print("Invalid Path or File not Found")
-        return get_rhubarb()
-    #make path to rhubarb path in the config
-    else:
-        config["rhubarb"] = path
-        pass
+    config["rhubarb"] = path
 
 
 #get the standard path if desired
@@ -82,7 +76,10 @@ def main():
     standard_path()
     finalize()
 
-    print("Thanks for installing RhubarbBarbara! Usage Tutorial can be found here: https://sites.google.com/view/christoferis/code-projects/rhubarbbarbara")
+    print("\n\nThanks for installing RhubarbBarbara! Usage Tutorial can be found here: https://sites.google.com/view/christoferis/code-projects/rhubarbbarbara")
+    sleep(10)
+
+
 
 try:
     main()
