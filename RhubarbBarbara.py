@@ -13,13 +13,13 @@ from tkinter import messagebox as mb
 
 from moviepy.editor import AudioFileClip, ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
+from numpy import common_type
 
 #Todo: 
 #V.1:
 # - Loading bar 
 # - About Page, icon + info
 # - FPS Option
-# - Pack into Egg
 
 # optional
 # - Path Information display at image thing
@@ -32,6 +32,24 @@ audiopath = str()
 savepath = str()
 config = None
 window = None
+
+def about():
+    abt = tk.Toplevel()
+
+    #Creator, and Thanks
+    tk.Label(abt, text='''
+    RhubarbBarbara, an application by Christoferis\n
+    written in Python 3.7.8, Version 1.0\n
+    This App uses parts from Rhubarb Lip Sync by Daniel S. Wolf(https://github.com/DanielSWolf/rhubarb-lip-sync) and MoviePy by Zulko(https://github.com/Zulko/moviepy) \n 
+    This App is maintained by Christoferis but feel free to help out!\n\n
+
+    Repo: https://github.com/Christoferis/RhubarbBarbara
+
+    Submit an Issue on Github if a problem persists or view the website (https://sites.google.com/view/christoferis/code-projects/rhubarbbarbara) for Troubleshooting measures.
+
+    '''
+    ).pack()
+
 
 
 def videoImage(data):
@@ -276,6 +294,10 @@ def get_path(widget, type):
 
 #GUI
 def gui(window, stdpath):
+
+    #about page
+    tk.Button(window, text="Credits + Help", command=about).pack(side="top")
+
     #make main Frame for the images
     top = tk.Frame(window)
 
@@ -332,7 +354,7 @@ def main():
     #construct main window and call GUI
     
     window = tk.Tk()
-    window.title("RhubarbBarbara by Christoferis (v0.15)")
+    window.title("RhubarbBarbara by Christoferis (v1.0)")
     
     gui(window=window, stdpath=standard)
 
@@ -344,5 +366,5 @@ def main():
 try:
     main()
 except Exception as e:
-    mb(message="A problem occured, check Error message for details, and if issue persists, make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara) \n\n" + str(e))
+    mb.showwarning(message="A problem occured, check Error message for details, and if issue persists, make an Github Issue \n(https://github.com/christoferis/RhubarbBarbara) \n\n" + str(e))
     exit()

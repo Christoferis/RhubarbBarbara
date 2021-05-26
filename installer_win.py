@@ -20,12 +20,9 @@ def get_rhubarb():
     
     path = input("Please provide the path to Rhubarb Barbara \n (ex.: D:/Music/rhubarb-lip-sync-1.10.0-win32/rhubarb-lip-sync-1.10.0-win32 or D:/Music/rhubarb-lip-sync-1.10.0-win32/rhubarb-lip-sync-1.10.0-win32/rhubarb.exe): ")
 
-
     #check for .exe
     if path.find(".exe") <= -1:
         path += "rhubarb.exe"
-    
-
 
     #test if file exists
     config["rhubarb"] = path
@@ -78,7 +75,6 @@ def main():
 
     print("\n\nThanks for installing RhubarbBarbara! Usage Tutorial can be found here: https://sites.google.com/view/christoferis/code-projects/rhubarbbarbara")
     sleep(10)
-
 
 
 try:
