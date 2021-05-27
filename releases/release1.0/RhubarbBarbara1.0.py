@@ -1,6 +1,6 @@
 #RhubarbBarbara is a Python tool for using Rhubarb Lip Sync in Production, without the need of Software like AE, OpenToonz etc.
 #by creating videos out of the data provided
-#by Christoferis GNU GPL v3 (https://www.sites.google.com/view/christoferis)
+#by Christoferis CC BY 4.0 (https://www.sites.google.com/view/christoferis)
 #trying to use a minimal amount of non stock dependencies
 
 import json

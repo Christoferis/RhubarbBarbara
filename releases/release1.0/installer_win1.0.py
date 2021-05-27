@@ -1,4 +1,4 @@
-#installer for Rhubarb Barbara by Christoferis GNU GPL v3
+#installer for Rhubarb Barbara by Christoferis CC BY 4.0
 # https://github.com/christoferis/rhubarbbarbara
 
 import json
