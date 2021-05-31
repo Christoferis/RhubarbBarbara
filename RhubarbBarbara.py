@@ -13,7 +13,6 @@ from tkinter import messagebox as mb
 
 from moviepy.editor import AudioFileClip, ImageClip, concatenate_videoclips
 from PIL import Image, ImageTk
-from numpy import common_type
 
 #Todo: 
 #V.1:
