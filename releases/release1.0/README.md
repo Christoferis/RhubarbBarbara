@@ -16,9 +16,9 @@ RhubarbBarbara is an app made to create Mouthanimations from Audio data using Mo
 2. Download the latest version of Rhubarb Lip Sync from [here](https://github.com/DanielSWolf/rhubarb-lip-sync/releases/tag/v1.10.0)
 3. Download the latest version of this by going to the [tags](https://github.com/Christoferis/RhubarbBarbara/tags) section
 4. Run the installation script (installer_win.py)
-    > 4a. Enter the path of the Rhubarb Lip Sync executable (ex.: D:\Documents\rhubarb-lip-sync-1.10.0-win32\rhubarb-lip-sync-1.10.0-win32\rhubarb.exe)
-    > 4b. Specify a standard directory if desired (Type NONE to skip this)
-    > 4c. Let the installer install the packages needed by typing "y"
+    - 4a. Enter the path of the Rhubarb Lip Sync executable (ex.: D:\Documents\rhubarb-lip-sync-1.10.0-win32\rhubarb-lip-sync-1.10.0-win32\rhubarb.exe)
+    - 4b. Specify a standard directory if desired (Type NONE to skip this)
+    - 4c. Let the installer install the packages needed by typing "y"
 
 ### Usage
 
