@@ -57,8 +57,9 @@ def finalize():
     choice = input("Do you want to proceed installing the packages? [y / n]: ")
 
     if choice in ("Y", "y"):
-        pip.main(args=["install", "moviepy"])
-
+        # two different versions: py launcher and no py launcher
+        system("py -3 -m pip install moviepy")
+        system("pip3 install moviepy")
 
 def main():
     global welcome
