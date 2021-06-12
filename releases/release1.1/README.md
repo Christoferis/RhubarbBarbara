@@ -15,9 +15,9 @@ RhubarbBarbara is an app made to create Mouthanimations from Audio data using Mo
 1. Download the latest version of Rhubarb Lip Sync from [here](https://github.com/DanielSWolf/rhubarb-lip-sync/releases/tag/v1.10.0)
 2. Download the latest version of this by going to the [tags](https://github.com/Christoferis/RhubarbBarbara/tags) section
 3. Run the installation script (installer_win.py)
-    > 3a. Enter the path of the Rhubarb Lip Sync executable (ex.: D:\Documents\rhubarb-lip-sync-1.10.0-win32\rhubarb-lip-sync-1.10.0-win32\rhubarb.exe)
-    > 3b. Specify a standard directory if desired (Type NONE to skip this)
-    > 3c. Let the installer install the packages needed by typing "y"
+    - 3a. Enter the path of the Rhubarb Lip Sync executable (ex.: D:\Documents\rhubarb-lip-sync-1.10.0-win32\rhubarb-lip-sync-1.10.0-win32\rhubarb.exe)
+    - 3b. Specify a standard directory if desired (Type NONE to skip this)
+    - 3c. Let the installer install the packages needed by typing "y"
 
 ### Usage
 
@@ -30,3 +30,17 @@ Click on start (the green Button) if you're ready.
 ---
 
 *RhubarbBarbara only outputs a video with the mouth Animation without any video, Motion Tracking, Footage and alignment has to be done outside of RhubarbBarbara*
+
+#### Development
+
+RhubarbBarbara is currently under development and help would be appreciated. We try to do regular updates
+
+**Roadmap:**
+
+    - Complete redesign of the ui for better navigation and more features
+    - More features: FPS, Resolution and bitrate
+    - Add support for custom Backgrounds + Placement of mouth In-Editor
+    - Script support + Emotions based on script (idea no real feature implementation planned)
+    - Better Performance: 
+        Better Memory Management, split into chunks
+        Multithreaded Video Encoding
