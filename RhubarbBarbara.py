@@ -225,6 +225,7 @@ def process():
         
     elif video == False:
         final.write_images_sequence(fps=60, withmask=True, nameformat=output)
+
     
 
 #startmethod + checker
@@ -234,7 +235,7 @@ def start():
     global output
 
     flag = int(0)
-
+    
     #check images (for the important ones)
     for shape in ("A","B","C","D","E","F"):
         if shape not in mouthSelector.mouthshapes:
