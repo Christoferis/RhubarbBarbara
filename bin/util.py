@@ -2,6 +2,7 @@
 
 from bin import globals
 from random import random
+import tkinter.filedialog as fd
 
 #Path Update Function
 def update_paths():

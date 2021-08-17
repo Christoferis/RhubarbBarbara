@@ -7,7 +7,7 @@ from tkinter import messagebox as mb
 
 from PIL import Image, ImageTk
 
-from bin import etc, globals, util
+from bin import etc, globals, util, rendering
 
 
 #class for the mouthSelector
@@ -105,7 +105,7 @@ class mouthSelector:
 
 
 #Main GUI Function
-def gui(window, stdpath):
+def gui(window):
 
     #about page
     tk.Button(window, text="Credits + Help", command=etc.about).pack(side="top")
@@ -131,13 +131,13 @@ def gui(window, stdpath):
 
     #outputpath
     outputpath = tk.StringVar()
-    outputpath.set(stdpath)
+    outputpath.set(globals.SAVE)
 
     output = tk.Entry(bottom, state="readonly", textvariable=outputpath)
     output.pack(side="left", expand=1, fill="x")
 
     #start button
-    tk.Button(bottom, text="start", background="green", foreground="white", command=start).pack(side="right", fill="both")
+    tk.Button(bottom, text="start", background="green", foreground="white", command=rendering.start).pack(side="right", fill="both")
     
     #search file buttons
     #Audio File Button

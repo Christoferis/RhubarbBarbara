@@ -14,7 +14,7 @@ def main():
     window = tk.Tk()
     window.title("RhubarbBarbara by Christoferis (v1.0)")
     
-    gui(window=window, stdpath=standard)
+    gui(window=window)
 
 
     window.mainloop()
