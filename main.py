@@ -1,7 +1,5 @@
 from bin import gui, etc
 import tkinter as tk
-import json
-from random import random
 
 #implement safe here
 def main():
@@ -9,14 +7,7 @@ def main():
     global config
     global output
     global window
-    config = json.loads(open("config.json", mode="r").read())
-    
-    #standard config
-    if config["standard-savepath"] != "":
-        standard = config["standard-savepath"] + "/" + str(round(random()*100000 + 1)) + ".avi"
-        output = standard
-    else:
-        standard = "Outputpath"
+
     
     #construct main window and call GUI
     
