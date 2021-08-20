@@ -17,33 +17,12 @@ class mouthSelector:
         self.window = window
         self.logo = mouthshape
         self.button = None
-        
+        self.ext = False
+        self.image = "icons/lisa-" + mouthshape + ".png"
 
         #mouthshape selector:
-        if mouthshape in ("A","B","C","D","E","F"):
-            self.ext = False
-        else:
+        if mouthshape in ("G","H","X"):
             self.ext = True
-
-        if mouthshape == "A":
-            self.image = "icons\lisa-A.png"
-        elif mouthshape == "B":
-            self.image = "icons\lisa-B.png"
-        elif mouthshape == "C":
-            self.image = "icons\lisa-C.png"
-        elif mouthshape == "D":
-            self.image = "icons\lisa-D.png"
-        elif mouthshape == "E":
-            self.image = "icons\lisa-E.png"
-        elif mouthshape == "F":
-            self.image = "icons\lisa-F.png"
-        elif mouthshape == "G":
-            self.image = "icons\lisa-G.png"
-        elif mouthshape == "H":
-            self.image = "icons\lisa-H.png"
-        elif mouthshape == "X":
-            self.image = "icons\lisa-X.png"
-        
         pass
 
     def create_wid(self):
@@ -101,7 +80,6 @@ class mouthSelector:
             self.button.config(background="blue", foreground="white")
         else:
             print(shape)
-
 
 
 #Main GUI Function

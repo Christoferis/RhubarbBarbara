@@ -6,21 +6,17 @@ import tkinter.filedialog as fd
 
 #Path Update Function
 def update_paths():
-    global CONFIG
-    global SAVE
 
     #standard config
     if globals.CONFIG["standard-savepath"] != "":
-        SAVE = globals.CONFIG["standard-savepath"] + "/" + str(round(random()*100000 + 1)) + ".avi"
+        globals.SAVE = globals.CONFIG["standard-savepath"] + "/" + str(round(random()*100000 + 1)) + ".avi"
     else:
         #TODO: Handle Outputpath
-        SAVE = "Outputpath"
+        globals.SAVE = "Outputpath"
 
 
 #get path function
 def get_path(widget, type):
-    global audiopath
-    global output
 
     #reset display widget and add in path info
     #audio for audio path, output for output path
@@ -29,7 +25,7 @@ def get_path(widget, type):
 
         if path != '':
             widget.set(path)
-            audiopath = path
+            globals.AUDIO = path
         else:
             pass
 

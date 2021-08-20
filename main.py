@@ -3,22 +3,15 @@ import tkinter as tk
 
 #implement safe here
 def main():
-    #open config file and fetch and make random name
-    global config
-    global output
-    global window
-
-    
+    #open config file and fetch and make random name    
     #construct main window and call GUI
     
     window = tk.Tk()
-    window.title("RhubarbBarbara by Christoferis (v1.0)")
+    window.title(etc.TITLE)
     
-    gui(window=window)
+    gui.gui(window=window)
 
-
-    window.mainloop()
-    
+    window.mainloop()    
     pass
 
 if __name__ == "__main__":

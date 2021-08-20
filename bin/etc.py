@@ -5,7 +5,7 @@ from tkinter import messagebox as mb
 
 
 #Vars for Headers and Stuff
-title = "RhubarbBarbara by Christoferis (v2.0)"
+TITLE = "RhubarbBarbara by Christoferis (v2.0)"
 
 #Standard Error Message
 
