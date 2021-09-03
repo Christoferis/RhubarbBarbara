@@ -1,8 +1,9 @@
-from bin import gui, etc
+from bin import etc, gui
 import tkinter as tk
 
 #implement safe here
 def main():
+
     #open config file and fetch and make random name    
     #construct main window and call GUI
     
@@ -11,8 +12,9 @@ def main():
     
     gui.gui(window=window)
 
-    window.mainloop()    
+    window.mainloop()
     pass
+
 
 if __name__ == "__main__":
 

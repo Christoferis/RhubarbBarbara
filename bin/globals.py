@@ -17,7 +17,10 @@ AUDIO = str
 CONFIG = json.loads(open("config.json", mode="r").read())
 
 #internal 
-MOUTHSHAPES = dict()
+#mouthshape paths, Background
+IMAGES = dict()
+
+RENDER_SETTINGS = {"FPS": 30, "Resolution": None}
 
 
 

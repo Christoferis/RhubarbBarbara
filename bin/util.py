@@ -1,6 +1,6 @@
 #Utillity functions used by Rhubarb Barbara
 
-from bin import globals
+import globals
 from random import random
 import tkinter.filedialog as fd
 
