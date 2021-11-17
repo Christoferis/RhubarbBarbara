@@ -10,15 +10,17 @@ def main():
     window = tk.Tk()
     window.title(etc.TITLE)
     
-    gui.gui(window=window)
-
+    gui.gui.gui(window=window)
+    
     window.mainloop()
     pass
 
 
 if __name__ == "__main__":
 
-    try:
-        main()
-    except Exception as e:
-        etc.error(e)
+    main()
+
+ #   try:
+  #      main()
+   # except Exception as e:
+    #    etc.error(e)

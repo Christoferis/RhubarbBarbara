@@ -1,8 +1,13 @@
 #Utillity functions used by Rhubarb Barbara
 
-import globals
+import bin.globals
 from random import random
 import tkinter.filedialog as fd
+
+#util funcs
+
+#mouthshape order
+mouthshape_order = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'X']
 
 #Path Update Function
 def update_paths():

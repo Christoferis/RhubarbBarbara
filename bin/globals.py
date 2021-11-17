@@ -4,7 +4,7 @@
 import json
 
 #Standard FPS is 30
-FPS = int
+FPS = 30
 
 #Resolution: 0: w, 1: h
 RES = list
