@@ -74,7 +74,9 @@ class m_selector(QtWidgets.QWidget):
     def get_image(self):
         return self.image
 
-        
+class options(QtWidgets.QWidget):
+
+    pass
 
 #test routine
 if __name__ == "__main__":
