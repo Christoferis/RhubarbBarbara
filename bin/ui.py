@@ -10,40 +10,52 @@ class main_ui(QtWidgets.QWidget):
         super().__init__()
         #elements
 
-        self.layout = QtWidgets.QVBoxLayout(self)
+        self.layout = QtWidgets.QHBoxLayout(self)
 
-        self.mouthselector = list()
-
-        for letter in ("A", "B", "C", "D", "E", "F", "G", "H", "X"):
-            self.mouthselector.append(m_selector(self, letter))
-
-        #append to main ui
-        for elem in self.mouthselector:
-            self.layout.addWidget(elem)
+        self.layout.addWidget(m_selector.mouthselector(self))
 
 
 #class for one mouth selector -> just instance
 class m_selector(QtWidgets.QWidget):
 
-    def __init__(self, parent, type) -> None:
-        super().__init__(parent=parent)
+    #second constructor to actually create widget
+    @staticmethod
+    def mouthselector(parent):
+        widget = QtWidgets.QWidget(parent=parent)
 
-        self.image = None
-        self.layout = QtWidgets.QHBoxLayout(parent=self)
+        widget.setLayout = QtWidgets.QVBoxLayout(widget)
+
+        widget.mouthselector = list()
+
+        for letter in ("A", "B", "C", "D", "E", "F", "G", "H", "X"):
+            widget.mouthselector.append(m_selector(letter))
+            
+        #append to main ui
+        for elem in widget.mouthselector:
+            widget.layout().addWidget(elem)
+
+        return widget
+
+    #part widget constructor
+    def __init__(self, type) -> None:
+        super().__init__()
+
+        self.image = f"bin/icons/lisa-{type}.png"
 
         #create the image
         self.preview = QtWidgets.QLabel(parent=self)
-        pic = QtGui.QPixmap(f"bin/icons/lisa-{type}.png").scaled(QtCore.QSize(80, 80), aspectMode=QtCore.Qt.KeepAspectRatio, mode=QtCore.Qt.SmoothTransformation)
-        self.preview.setPixmap(pic)
+        self.preview.setPixmap(QtGui.QPixmap(self.image).scaled(80, 80, aspectMode=QtCore.Qt.KeepAspectRatio, mode=QtCore.Qt.SmoothTransformation))
 
         #buttons: x and select
         load_button = QtWidgets.QPushButton(text="Load", parent=self)
         x_button = QtWidgets.QPushButton(text="X", parent=self)
 
-        self.layout.addWidget(self.preview)
+        self.layout = QtWidgets.QBoxLayout(QtWidgets.QBoxLayout.Direction.LeftToRight, parent=self)
         self.layout.addWidget(QtWidgets.QLabel(parent=self, text=type))
-        self.layout.addWidget(x_button)
+        self.layout.addWidget(self.preview)
         self.layout.addWidget(load_button)
+        self.layout.addWidget(x_button)
+        
         
         load_button.clicked.connect(self.set_image)
         x_button.clicked.connect(self.set_image)
@@ -51,8 +63,8 @@ class m_selector(QtWidgets.QWidget):
     def set_image(self):
         self.image = QtWidgets.QFileDialog.getOpenFileName()
 
-        #set image as Icon Backgorund
-        self.preview.setPixmap(QtGui.QPixmap(self.image))
+        #set image as Icon Backgorund + scale to a normal size
+        self.preview.setPixmap(QtGui.QPixmap(self.image[0]).scaled(80, 80, aspectMode=QtCore.Qt.KeepAspectRatio, mode=QtCore.Qt.SmoothTransformation))
 
         pass
 
